@@ -55,17 +55,30 @@ void mOutElem(struct dlist m[])
 
 void mOut(struct dlist m[])
 {//вывод матрицы
-	printf("|%d %d %d %d|\n", m[0].data,  m[1].data,  m[2].data,  m[3].data); 
-	printf("|%d %d %d %d|\n", m[4].data,  m[5].data,  m[6].data,  m[7].data); 
-	printf("|%d %d %d %d|\n", m[8].data,  m[9].data,  m[10].data, m[11].data); 
-	printf("|%d %d %d %d|\n", m[12].data, m[13].data, m[14].data, m[15].data); 
+	int i;
+	for (i=0;i<16;i++)
+	{
+		if(i==0||i==4||i==8||i==12)
+		{
+			printf("|%d ", m[i].data);
+		} else if (i==3||i==7||i==11||i==15)
+		{
+			printf("%d|\n", m[i].data);
+		} else
+		{
+			printf("%d ", m[i].data);
+		}
+	}
 	printf("\n");
 }
 
 void sortRow(struct dlist m[], int R)
-{//сортировка строк - не идеально
+{//сортировка по строкам
 	int a;
 	int e;
+	//int R;
+
+	R=R*4;
 	for(a=R-4; a<R; a++)
 	{
 		for(e =a+1; e<R; e++)
@@ -75,16 +88,19 @@ void sortRow(struct dlist m[], int R)
 				int ch = m[a].data;
 				m[a].data = m[e].data;
 				m[e].data = ch;
-				mOut(m);
+				
+				//printf("Mode: Row\n");
+				//mOut(m); //дебаг
 			}
 		}
 	}
 }
 
 void sortCol(struct dlist m[], int C)
-{//сортировка столбцов - не идеально
+{//сортировка по столбам
 	int a;
 	int e;
+
 	for(a =C; a<16; a=a+4)
 	{
 		for(e =a+4; e<16; e=e+4)
@@ -93,11 +109,47 @@ void sortCol(struct dlist m[], int C)
 				int ch = m[a].data;
 				m[a].data = m[e].data;
 				m[e].data = ch;
-				mOut(m);
+				
+				//printf("Mode: Col\n");
+				//mOut(m); //дебаг
 			}
 		}
 	}
+}
 
+void ColRowSort(struct dlist m[])
+{
+	int b;
+	for(b =0; b<16; b++)
+	{
+		if(m[b].row!=0 && m[b].col!=0)
+		{
+			if( (m[b].row->data < m[b].col->data))
+			{
+				int ch = m[b].row->data;
+				m[b].row->data = m[b].col->data;
+				m[b].col->data = ch;
+				
+				//printf("Mode: Col/Row\n");
+				//mOut(m); //дебаг
+			}
+		}
+	}
+}
+
+void SortFull(struct dlist M[])
+{
+	int b;
+	int k;
+	for (b =1; b<5; b++)
+	{
+		sortRow(M, b);
+	}
+	for (b =0; b<4; b++)
+	{
+		sortCol(M, b);
+	}
+	//ColRowSort(M);
 }
 
 void main() 
@@ -109,53 +161,21 @@ void main()
 	struct dlist M[16];
 	M[0].data = 3; M[8].data = 4; 
 	M[1].data = 2; M[9].data = 4;
-	M[2].data = 5; M[10].data = 6;
+	M[2].data = 5; M[10].data = 5;
 	M[3].data = 4; M[11].data = 4;
 	M[4].data = 5; M[12].data = 3;
 	M[5].data = 1; M[13].data = 2;
 	M[6].data = 6; M[14].data = 7;
 	M[7].data = 3; M[15].data = 6;
 	
-	//Сортировка ссылок элементов матрицы
-	mLinkSort(M);
+	mLinkSort(M); //Сортировка ссылок
+	mOut(M); //Вывод матрицы
+	mOutElem(M); //Вывод элементов с ссылками
 
-	//вывод матрицы
-	mOut(M);
+	//Сортировка
+	SortFull(M);
 	
-	//Вывод каждого эл. матрицы со всеми ссылками
-	mOutElem(M);
-	
-	//Сортировка 
-	int b;
-	for (b =4; b>0; b--)
-	{
-		sortRow(M, b*4);
-	}
-	for (b =3; b>=0; b--)
-	{
-		sortCol(M, b);
-	}
-	
-	
- 	/*for(i =0; i <16; i++)
-	{
-		if(M[i].row->data > M[i].col->data)
-		{
-			int ch = M[i].data;
-			M[i].data = M[i].row->data;
-			M[i].row->data = ch;
-			mLinkSort(M);
-		}
-	}*/
-	
-	mOut(M);
-
-	//Сортировка ссылок элементов матрицы
-	mLinkSort(M);
-
-	//вывод матрицы
-	mOut(M);
-	
-	//Вывод каждого эл. матрицы со всеми ссылками
-	mOutElem(M);
+	mLinkSort(M); //Сортировка ссылок
+	mOut(M); //Вывод матрицы
+	mOutElem(M); //Вывод элементов с ссылками
 }
