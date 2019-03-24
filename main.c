@@ -28,6 +28,7 @@ void mLinkSort(struct dlist m[])
 		}
 		else { m[i].col = 0; }
 	}
+	
 }
 
 void mOutElem(struct dlist m[])
@@ -94,6 +95,7 @@ void sortRow(struct dlist m[], int R)
 			}
 		}
 	}
+	mLinkSort(m);
 }
 
 void sortCol(struct dlist m[], int C)
@@ -115,6 +117,7 @@ void sortCol(struct dlist m[], int C)
 			}
 		}
 	}
+	mLinkSort(m);
 }
 
 void ColRowSort(struct dlist m[])
@@ -135,21 +138,69 @@ void ColRowSort(struct dlist m[])
 			}
 		}
 	}
+	mLinkSort(m);
 }
 
-void SortFull(struct dlist M[])
+void SortFull(struct dlist m[])
 {
 	int b;
 	int k;
 	for (b =1; b<5; b++)
 	{
-		sortRow(M, b);
+		sortRow(m, b);
 	}
 	for (b =0; b<4; b++)
 	{
-		sortCol(M, b);
+		sortCol(m, b);
 	}
-	//ColRowSort(M);
+	mLinkSort(m);
+}
+
+void SortDown(struct dlist m[])
+{
+	int b;
+	for(b =0; b<15; b++)
+	{
+		if(m[b].col!=0)
+		{
+			if(m[b].data>m[b].col->data)
+			{
+				int ch = m[b].data;
+				m[b].data = m[b].col->data;
+				m[b].col->data = ch;
+			}
+		}
+	}
+	mLinkSort(m);
+}
+
+void SortRight(struct dlist m[])
+{
+	int b;
+	for(b =0; b<15; b++)
+	{
+		if(m[b].row!=0)
+		{
+			if(m[b].data>m[b].row->data)
+			{
+				int ch = m[b].data;
+				m[b].data = m[b].row->data;
+				m[b].row->data = ch;
+			}
+		}
+	}
+	mLinkSort(m);
+}
+
+void Sort1(struct dlist m[])
+{
+	SortRight(m);
+	mLinkSort(m);
+	SortDown(m);
+	
+	SortRight(m);
+	mLinkSort(m);
+	SortDown(m);
 }
 
 void main() 
@@ -159,20 +210,34 @@ void main()
 	
 	//задание матрицы
 	struct dlist M[16];
+	M[0].data = 0; M[8].data = 1; 
+	M[1].data = 1; M[9].data = 2;
+	M[2].data = 2; M[10].data = 2;
+	M[3].data = 3; M[11].data = 3;
+	M[4].data = 3; M[12].data = 3;
+	M[5].data = 4; M[13].data = 4;
+	M[6].data = 4; M[14].data = 5;
+	M[7].data = 5; M[15].data = 6;
+	
 	M[0].data = 3; M[8].data = 4; 
 	M[1].data = 2; M[9].data = 4;
-	M[2].data = 5; M[10].data = 5;
+	M[2].data = 2; M[10].data = 5;
 	M[3].data = 4; M[11].data = 4;
 	M[4].data = 5; M[12].data = 3;
-	M[5].data = 1; M[13].data = 2;
+	M[5].data = 1; M[13].data = 5;
 	M[6].data = 6; M[14].data = 7;
-	M[7].data = 3; M[15].data = 6;
+	M[7].data = 3; M[15].data = 6;//*/ //Работающий вариант
 	
+
+
 	mLinkSort(M); //Сортировка ссылок
 	mOut(M); //Вывод матрицы
 	mOutElem(M); //Вывод элементов с ссылками
 
 	//Сортировка
+	
+	Sort1(M); 
+	ColRowSort(M);
 	SortFull(M);
 	
 	mLinkSort(M); //Сортировка ссылок
