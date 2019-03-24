@@ -217,9 +217,9 @@ void main()
 	M[4].data = 3; M[12].data = 3;
 	M[5].data = 4; M[13].data = 4;
 	M[6].data = 4; M[14].data = 5;
-	M[7].data = 5; M[15].data = 6;
+	M[7].data = 5; M[15].data = 6; //На редактирование
 	
-	M[0].data = 3; M[8].data = 4; 
+	/*M[0].data = 3; M[8].data = 4; 
 	M[1].data = 2; M[9].data = 4;
 	M[2].data = 2; M[10].data = 5;
 	M[3].data = 4; M[11].data = 4;
