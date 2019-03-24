@@ -221,10 +221,10 @@ void main()
 	
 	M[0].data = 3; M[8].data = 4; 
 	M[1].data = 2; M[9].data = 4;
-	M[2].data = 2; M[10].data = 5;
+	M[2].data = 5; M[10].data = 5;
 	M[3].data = 4; M[11].data = 4;
 	M[4].data = 5; M[12].data = 3;
-	M[5].data = 1; M[13].data = 5;
+	M[5].data = 1; M[13].data = 2;
 	M[6].data = 6; M[14].data = 7;
 	M[7].data = 3; M[15].data = 6;//*/ //Работающий вариант
 	
