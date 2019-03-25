@@ -203,6 +203,60 @@ void Sort1(struct dlist m[])
 	SortDown(m);
 }
 
+void treeSortRight(struct dlist m[], int t)
+{
+	int nextRight;
+	if(m[t].row!=0);
+	{
+		if(m[t].data > m[t].row->data)
+		{
+			int ch = m[t].data;
+			m[t].data = m[t].row->data;
+			m[t].row->data = ch;
+		}
+		mLinkSort(m);
+	}
+	if(m[t].row != 0)
+	{
+		nextRight = t+1;
+	} else {nextRight = 0;}
+}
+
+void treeSortDown(struct dlist m[], int t)
+{
+	int nextDown;
+	if(m[t].col!=0);
+	{
+		if(m[t].data > m[t].col->data)
+		{
+			int ch = m[t].data;
+			m[t].data = m[t].col->data;
+			m[t].col->data = ch;
+		}
+		mLinkSort(m);
+	}
+	if(m[t].col != 0)
+	{
+		nextDown = t+4;
+	} else {nextDown = 0;}
+}
+
+void treeSort(struct dlist m[])
+{
+	int g;
+	do 
+	{
+		treeSortRight(m, g);
+	} 
+	while (); 
+	g =0;
+	do 
+	{
+		
+	} 
+	while ();
+}
+
 void main() 
 {
 	// на for
@@ -236,9 +290,10 @@ void main()
 
 	//Сортировка
 	
-	Sort1(M); 
-	ColRowSort(M);
-	SortFull(M);
+	//Sort1(M); 
+	//ColRowSort(M);
+	//SortFull(M);
+	treeSort(M);
 	
 	mLinkSort(M); //Сортировка ссылок
 	mOut(M); //Вывод матрицы
