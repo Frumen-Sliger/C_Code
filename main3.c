@@ -13,7 +13,7 @@ typedef struct dlist
 	struct dlist *down;
 } Matrix;
 
-Matrix *init(int data)
+Matrix *mInit(int data)
 {
 	Matrix *temp = (Matrix*)malloc(sizeof(Matrix));
 	temp->data = data;
@@ -22,7 +22,7 @@ Matrix *init(int data)
 	return(temp);
 }
 
-Matrix addelem(int data, Matrix *head)
+Matrix addelemRight(int data, Matrix *head)
 {
 	Matrix *temp = (Matrix*)malloc(sizeof(Matrix));
 	
@@ -31,28 +31,54 @@ Matrix addelem(int data, Matrix *head)
 	temp -> down = NULL;
 	
 	Matrix *p = head;
-	while (p->right != NULL)
-	p = p -> right;
-	p -> right = temp;
-	
-	p = head;
 	while (p->down != NULL)
 	p = p -> down;
 	p -> down = temp;
 }
 
+Matrix addelemDown(int data, Matrix *head)
+{
+	Matrix *temp = (Matrix*)malloc(sizeof(Matrix));
+	
+	temp -> data = data;
+	temp -> right = NULL;
+	temp -> down = NULL;
+	
+	Matrix *p = head;
+	while (p->down != NULL)
+	p = p -> down;
+	p -> down = temp;
+}
 
-void mInit(int i)
-{	//Установка значений матрицы
-
-	init(i);
+void mPrint(Matrix *lst, int Row)
+{
+	Matrix *r, *d;
+	r = lst;
+	d = r;
+	int i;
+	for(i =0; i <Row; i++)
+	{
+		do 
+		{
+			printf("%d ", r->data);
+			r = r->right;
+		} while (r != NULL); 
+		d = d->down;
+		if (d != NULL)
+		{
+			r = d;
+		}
+		printf("\n");
+	}
 }
 
 void main() 
 {
 	system("@cls||clear"); // Clear the console
 	Matrix MatrixMain; //Create the Matrix struct
-	mInit(0);
-	addelem(1, &MatrixMain);
-	addelem(2, &MatrixMain);
+	mInit(5);
+	addelemRight(5, &MatrixMain);
+	addelemDown(5, &MatrixMain);
+	printf("%d %d \n%d\n", &MatrixMain.data, &MatrixMain.right->data, &MatrixMain.down->data);
+	mPrint(&MatrixMain, 2);
 }
