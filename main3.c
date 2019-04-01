@@ -13,16 +13,34 @@ typedef struct dlist
 	struct dlist *down;
 } Matrix;
 
-Matrix *mInit(int data)
+Matrix *mInit(int data, int e)
 {
 	Matrix *temp = (Matrix*)malloc(sizeof(Matrix));
 	temp->data = data;
 	temp->right = NULL;
 	temp->down = NULL;
 	return(temp);
+	e = 1;
 }
 
-Matrix addelemRight(int data, Matrix *head)
+Matrix addelemRight(int data, Matrix *head, int e)
+{
+	Matrix *temp = (Matrix*)malloc(sizeof(Matrix));
+	
+	temp->data = data;
+	temp->right = NULL;
+	temp->down = NULL;
+	
+	Matrix *r = head;
+	while (r->right != NULL)
+	{
+		r = r -> right;
+	}
+	r -> right = temp;
+	e++;
+}
+
+Matrix addelemDown(int data, Matrix *head, int e)
 {
 	Matrix *temp = (Matrix*)malloc(sizeof(Matrix));
 	
@@ -30,39 +48,26 @@ Matrix addelemRight(int data, Matrix *head)
 	temp -> right = NULL;
 	temp -> down = NULL;
 	
-	Matrix *p = head;
-	while (p->down != NULL)
-	p = p -> down;
-	p -> down = temp;
-}
-
-Matrix addelemDown(int data, Matrix *head)
-{
-	Matrix *temp = (Matrix*)malloc(sizeof(Matrix));
-	
-	temp -> data = data;
-	temp -> right = NULL;
-	temp -> down = NULL;
-	
-	Matrix *p = head;
-	while (p->down != NULL)
-	p = p -> down;
-	p -> down = temp;
+	Matrix *d = head;
+	while (d->down != NULL)
+	{
+		d = d -> down;
+	}
+	d -> down = temp;
+	e++;
 }
 
 void mPrint(Matrix *lst, int Row)
 {
 	Matrix *r, *d;
-	r = lst;
-	d = r;
+	d = lst;
 	int i;
 	for(i =0; i <Row; i++)
 	{
-		do 
+		for (r = d; r != NULL; r = r->right)
 		{
 			printf("%d ", r->data);
-			r = r->right;
-		} while (r != NULL); 
+		}
 		d = d->down;
 		if (d != NULL)
 		{
@@ -76,9 +81,11 @@ void main()
 {
 	system("@cls||clear"); // Clear the console
 	Matrix MatrixMain; //Create the Matrix struct
-	mInit(5);
-	addelemRight(5, &MatrixMain);
-	addelemDown(5, &MatrixMain);
-	printf("%d %d \n%d\n", &MatrixMain.data, &MatrixMain.right->data, &MatrixMain.down->data);
+	int Elem = 0;
+	mInit(5, Elem);
+	addelemRight(5, &MatrixMain, Elem);
+	addelemDown(5, &MatrixMain, Elem);
+	
+	printf("%d \n", Elem);
 	mPrint(&MatrixMain, 2);
 }
