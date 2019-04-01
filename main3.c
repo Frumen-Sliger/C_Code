@@ -29,18 +29,14 @@ Matrix addelemRight(int data, Matrix *head)
 	Matrix *temp, *r; 
 	temp = (Matrix*)malloc(sizeof(Matrix));
 	
-	head->right = temp;
-	head->down = NULL;
-	
 	temp->data = data;
 	temp->right = NULL;
 	temp->down = NULL;
 	
 	r = head;
 	while (r->right != NULL)
-	r = r -> right;
+	{r = r -> right;}
 	r -> right = temp;
-	
 }
 
 Matrix addelemDown(int data, Matrix *head)
@@ -48,18 +44,14 @@ Matrix addelemDown(int data, Matrix *head)
 	Matrix *temp, *d; 
 	temp = (Matrix*)malloc(sizeof(Matrix));
 	
-	head->right = NULL;
-	head->down = temp;
-	
 	temp -> data = data;
 	temp -> right = NULL;
 	temp -> down = NULL;
 	
 	d = head;
 	while (d->down != NULL)
-	d = d -> down;
+	{d = d -> down;}
 	d -> down = temp;
-	
 }
 
 void mPrint(Matrix *lst, int Row)
@@ -72,13 +64,14 @@ void mPrint(Matrix *lst, int Row)
 		for (r = d; r != NULL; r = r->right)
 		{
 			printf("%d ", r->data);
+			printf("1\n");
 		}
 		d = d->down;
 		if (d != NULL)
 		{
 			r = d;
 		}
-		printf("\n");
+		printf("row done\n");
 	}
 }
 
@@ -89,6 +82,7 @@ void main()
 	//int Elem = 0;
 	mInit(5);
 	addelemRight(5, &MatrixMain);
+	addelemDown(5, &MatrixMain);
 	addelemDown(5, &MatrixMain);
 	
 	mPrint(&MatrixMain, 2);
