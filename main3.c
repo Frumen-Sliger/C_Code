@@ -13,7 +13,7 @@ typedef struct dlist //Structure information
 	struct dlist *down;
 } Matrix;
 
-Matrix *mInit(int data)//Initialization of Structure  --  Matrix 
+Matrix * mInit(int data)//Initialization of Structure
 {
 	Matrix *temp = (Matrix*)malloc(sizeof(Matrix));
 	
@@ -29,18 +29,16 @@ Matrix addelemRight(int data, Matrix *head) //Adding element to Right
 	Matrix *temp, *r; //init temp elem
 	temp = (Matrix*)malloc(sizeof(Matrix));
 	
-	printf("5\n");
 	//Setting data
 	temp->data = data;
 	temp->right = NULL;
 	temp->down = NULL;
 	
-	printf("6\n");
 	//Adding elem to Matrix
 	r = head;
 	
 	while (r->right != NULL)
-	{r = r -> right;printf("7\n");}
+	{r = r -> right;}
 	r -> right = temp;
 }
 
@@ -67,49 +65,62 @@ void mPrint(Matrix *lst, int Row) //Outputs All Matrix Elements
 	d = lst;
 	int i;
 	for(i =0; i <Row; i++) //By row count
-	{
+	{//printf("D1\n"); //Debug
 		for (r = d; r != NULL; r = r->right)//Out full row
 		{
-			printf("%d", r->data);
-			//printf("1\n");
+			printf("%d ", r->data);
+			//printf("D1\n"); //Debug
 		}
 		d = d->down;//Step lower
 		if (d != NULL)
 		{
 			r = d;
 		}
-		printf("row done\n");//debug
+		//printf(" row done\n");//debug
+		printf("\n");
 	}
 }
 
 void main() 
 {
 	system("@cls||clear"); // Clear the console
-	Matrix MatrixMain; //Create the Matrix struct
-	//int Elem = 0;
 	
-	mInit(1);
+	Matrix *MatrixMain;
+	MatrixMain = mInit(1); //Create the Matrix struct
 	
-	//printf("%d\n", &MatrixMain.right->right->right);
+	Matrix *temp = MatrixMain;
+	addelemRight(1, MatrixMain);
+	addelemRight(1, MatrixMain);
+	addelemRight(1, MatrixMain);
 	
-	/*
-	printf("1\n");//debug
-	addelemRight(1, &MatrixMain);
-	printf("2\n");//debug
-	addelemRight(1, &MatrixMain);
-	addelemRight(1, &MatrixMain); 
+	addelemDown(1, MatrixMain);
+	temp = temp->down;
 	
-	addelemDown(1, &MatrixMain);
-	addelemDown(1, &MatrixMain);
-	*/
+	addelemRight(1, temp);
+	addelemRight(1, temp);
+	addelemRight(1, temp);
+	
+	addelemDown(1, MatrixMain);
+	temp = temp->down;
+	
+	addelemRight(1, temp);
+	addelemRight(1, temp);
+	addelemRight(1, temp);
+	
+	addelemDown(1, MatrixMain);
+	temp = temp->down;
+	
+	addelemRight(1, temp);
+	addelemRight(1, temp);
+	addelemRight(1, temp);
 	
 	/* - Matrix view - *\
 	
 		 |1 1 1 1|
-		 |1 |
-		 |1 |
-		 | |
+		 |1 1 1 1|
+		 |1 1 1 1|
+		 |1 1 1 1|
 	
 	\*                 */
-	//mPrint(&MatrixMain, 1);
+	mPrint(MatrixMain, 4);
 }
