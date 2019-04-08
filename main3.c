@@ -1,10 +1,12 @@
 #include <unistd.h>
+#include <stdio.h> // <----- Debugging
+#include<time.h>   // <----- 
 #include <stdlib.h> //only system(clear)
 
-#define _ATTRIBUTE(attrs) __attribute__ (attrs)
+/*#define _ATTRIBUTE(attrs) __attribute__ (attrs)
 #define _EXFUN(name, proto) name proto
 int _EXFUN(printf, (const char *__restrict, ...)
-_ATTRIBUTE ((__format__ (__printf__, 1, 2))));
+_ATTRIBUTE ((__format__ (__printf__, 1, 2))));*/
 
 typedef struct dlist //Structure information
 {
@@ -26,7 +28,7 @@ Matrix * mInit(int data)//Initialization of Structure
 
 Matrix addelemRight(int data, Matrix *head) //Adding element to Right
 {
-	Matrix *temp, *r; //init temp elem
+	Matrix *temp, *r;//init temp elem
 	temp = (Matrix*)malloc(sizeof(Matrix));
 	
 	//Setting data
@@ -36,7 +38,6 @@ Matrix addelemRight(int data, Matrix *head) //Adding element to Right
 	
 	//Adding elem to Matrix
 	r = head;
-	
 	while (r->right != NULL)
 	{r = r -> right;}
 	r -> right = temp;
@@ -65,62 +66,64 @@ void mPrint(Matrix *lst, int Row) //Outputs All Matrix Elements
 	d = lst;
 	int i;
 	for(i =0; i <Row; i++) //By row count
-	{//printf("D1\n"); //Debug
+	{
 		for (r = d; r != NULL; r = r->right)//Out full row
 		{
 			printf("%d ", r->data);
-			//printf("D1\n"); //Debug
 		}
 		d = d->down;//Step lower
 		if (d != NULL)
 		{
 			r = d;
 		}
-		//printf(" row done\n");//debug
 		printf("\n");
 	}
+}
+
+void MatrixGeneration(Matrix *m, int Rand)
+{
+	int i, r, d;
+	Matrix *temp = m;
+	Matrix *t = temp;
+	Matrix *s = temp;
+	for(i =0; i <Rand; i++)
+	{
+		for(r =0; r <Rand; r++)
+		{
+			if(r != 0) 
+			{
+				addelemRight(rand() % 9, temp);
+			}
+		}
+		if(i != Rand-1) {addelemDown(rand() % 9, temp);}
+		
+		temp = temp->down;
+	}
+}
+
+void mSort(Matrix *m)
+{
+	
 }
 
 void main() 
 {
 	system("@cls||clear"); // Clear the console
 	
+	time_t t;
+	srand((unsigned) time(&t));//Rand time tick
+	
+	
 	Matrix *MatrixMain;
-	MatrixMain = mInit(1); //Create the Matrix struct
+	MatrixMain = mInit(rand() % 9); //Create the Matrix struct
 	
-	Matrix *temp = MatrixMain;
-	addelemRight(1, MatrixMain);
-	addelemRight(1, MatrixMain);
-	addelemRight(1, MatrixMain);
+	int mSize = 0;
+	while (mSize < 1) {mSize = rand() % 10;} //Creating Random number
 	
-	addelemDown(1, MatrixMain);
-	temp = temp->down;
+	printf("Matrix size - %d\n\n", mSize);
 	
-	addelemRight(1, temp);
-	addelemRight(1, temp);
-	addelemRight(1, temp);
+	MatrixGeneration(MatrixMain, mSize); //Generate Matrix
+	mPrint(MatrixMain, mSize); //Outputs generated Matrix
 	
-	addelemDown(1, MatrixMain);
-	temp = temp->down;
-	
-	addelemRight(1, temp);
-	addelemRight(1, temp);
-	addelemRight(1, temp);
-	
-	addelemDown(1, MatrixMain);
-	temp = temp->down;
-	
-	addelemRight(1, temp);
-	addelemRight(1, temp);
-	addelemRight(1, temp);
-	
-	/* - Matrix view - *\
-	
-		 |1 1 1 1|
-		 |1 1 1 1|
-		 |1 1 1 1|
-		 |1 1 1 1|
-	
-	\*                 */
-	mPrint(MatrixMain, 4);
+	//mSort(MatrixMain);
 }
