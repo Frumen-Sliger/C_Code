@@ -123,7 +123,8 @@ void MatrixGeneration(Matrix *m, int Rand)
 		
 		temp = temp->down;
 	}
-	Matrix *upper =m;
+	//Down link set	
+	Matrix *upper =m; 
 	Matrix *lower =m;
 	Matrix *t;
 	
@@ -143,10 +144,43 @@ void MatrixGeneration(Matrix *m, int Rand)
 	}
 }
 
-void mSort(Matrix *m)
+void mSort(Matrix *m, int Rand)
 {
-	printf("right -> down -> data: %d \n", m->right->down->data);
-	printf("right -> down -> right -> down -> data: %d\n", m->right->down->right->down->data);
+	int t;
+	
+	if(m->right != NULL) 
+	{
+		if(m->data > m->right->data)
+		{
+			t = m->data;
+			m->data = m->right->data;
+			m->right->data = t;
+		}
+	}
+	if(m->down != NULL) 
+	{
+		if(m->data > m->down->data)
+		{
+			t = m->data;
+			m->data = m->down->data;
+			m->right->data = t;
+		}
+	}
+}
+
+void Sort(Matrix *m, int Rand)
+{
+	Matrix *Temp = m;
+	
+	while(Temp->right!=NULL)
+	{Temp = Temp->right;
+	Sort(Temp, Rand);}
+	
+	Temp = m;
+	
+	while(Temp->down!=NULL)
+	{Temp = Temp->down;
+	Sort(Temp, Rand);}
 }
 
 void main() 
@@ -175,6 +209,7 @@ void main()
 	
 	printf("R- %d C- %d All- %d\n", rNum, cNum, all);
 	
-	mSort(MatrixMain);
+	Sort(MatrixMain, mSize); //Sorts Matrix
+	mPrint(MatrixMain, mSize); //Outputs sorted Matrix
 }
 
