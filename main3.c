@@ -79,23 +79,29 @@ void mPrint(Matrix *lst, int Row) //Outputs All Matrix Elements
 	{
 		for (r = d; r != NULL; r = r->right)//Out full row
 		{
-			printf("%d ", r->data);
+			if(r->down!=NULL)
+			{printf("|");}
+			else {printf(" ");}
+			
+			printf("%d", r->data);
+			
+			if(r->right!=NULL)
+			{printf("- ");}
+			else {printf("  ");}
 		}
 		d = d->down;//Step lower
 		if (d != NULL)
 		{
 			r = d;
 		}
-		printf("\n");
+		printf("\n\n");
 	}
 }
 
 void MatrixGeneration(Matrix *m, int Rand)
 {
-	int i, r, d;
+	int i, r, g;
 	Matrix *temp = m;
-	Matrix *t =m;
-	Matrix *g =m;
 	m->row--;
 	for(i =0; i <Rand; i++)
 	{
@@ -106,26 +112,6 @@ void MatrixGeneration(Matrix *m, int Rand)
 			{
 				addelemRight(rand() % 9, temp);
 				m->all++;
-				
-				while(t->down != NULL)
-				{
-					t = t->down;
-				}
-				while(t->right != NULL)
-				{
-					t = t->right;
-				}
-				
-				for(d =0; d < g->col-1; d++)
-				{
-					g = g->down;
-				}
-				while(g->right != NULL)
-				{
-					g = g->right;
-				}	
-				
-				g->down = t; 
 			}
 		}
 		if(i != Rand-1) 
@@ -137,11 +123,30 @@ void MatrixGeneration(Matrix *m, int Rand)
 		
 		temp = temp->down;
 	}
+	Matrix *upper =m;
+	Matrix *lower =m;
+	Matrix *t;
+	
+	for(r =0; r< Rand-1; r++)
+	{
+		t = upper;
+		lower = upper -> down;
+		for(g =0; g< Rand-1; g++)
+		{
+			upper = upper -> right;
+			lower = lower -> right;
+			
+			upper -> down = lower;
+		}
+		upper = t;
+		upper = upper -> down;
+	}
 }
 
 void mSort(Matrix *m)
 {
-	printf("%d", m->right->down->data);
+	printf("right -> down -> data: %d \n", m->right->down->data);
+	printf("right -> down -> right -> down -> data: %d\n", m->right->down->right->down->data);
 }
 
 void main() 
@@ -160,7 +165,6 @@ void main()
 	while (mSize < 1) {mSize = rand() % 10;} //Creating Random number
 	
 	printf("Matrix size - %d\n\n", mSize);
-	
 	MatrixGeneration(MatrixMain, mSize); //Generate Matrix
 	mPrint(MatrixMain, mSize); //Outputs generated Matrix
 	
