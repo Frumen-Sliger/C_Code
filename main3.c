@@ -36,7 +36,7 @@ Matrix * mInit(int data)//Initialization of Structure
 
 Matrix addelemRight(int data, Matrix *head) //Adding element to Right
 {
-	Matrix *temp, *r;//init temp elem
+	Matrix *temp, *r; //init temp elem
 	temp = (Matrix*)malloc(sizeof(Matrix));
 	
 	//Setting data
@@ -144,10 +144,10 @@ void MatrixGeneration(Matrix *m, int Rand)
 	}
 }
 
-void mSort(Matrix *m, int Rand)
+Matrix * mSort(Matrix *m)
 {
 	int t;
-	
+	Matrix *temp = m;
 	if(m->right != NULL) 
 	{
 		if(m->data > m->right->data)
@@ -157,30 +157,34 @@ void mSort(Matrix *m, int Rand)
 			m->right->data = t;
 		}
 	}
+	//getchar();
 	if(m->down != NULL) 
 	{
-		if(m->data > m->down->data)
+		if(m->data > m->down->data) 
 		{
 			t = m->data;
 			m->data = m->down->data;
-			m->right->data = t;
+			m->down->data = t;
 		}
 	}
+	//getchar();
+	
+	if(temp->right != NULL)
+	temp->right = mSort(temp->right);
+	
+	//getchar();
+	
+	if(temp->down !=NULL)
+	temp->down = mSort(temp->down);
+	
+	m= temp;
+	return m;
 }
 
-void Sort(Matrix *m, int Rand)
+Matrix * Sort(Matrix *m, int Rand)
 {
-	Matrix *Temp = m;
 	
-	while(Temp->right!=NULL)
-	{Temp = Temp->right;
-	Sort(Temp, Rand);}
-	
-	Temp = m;
-	
-	while(Temp->down!=NULL)
-	{Temp = Temp->down;
-	Sort(Temp, Rand);}
+	return m;
 }
 
 void main() 
@@ -196,20 +200,32 @@ void main()
 	MatrixMain = mInit(rand() % 9); //Create the Matrix struct
 	
 	int mSize = 0;
-	while (mSize < 1) {mSize = rand() % 10;} //Creating Random number
+	while (mSize <= 1) {mSize = rand() % 10;} //Creating Random number
 	
 	printf("Matrix size - %d\n\n", mSize);
 	MatrixGeneration(MatrixMain, mSize); //Generate Matrix
+	
 	mPrint(MatrixMain, mSize); //Outputs generated Matrix
 	
 	cNum = MatrixMain->col;
 	rNum = MatrixMain->row;
 	all = MatrixMain->all;
 	
+	printf("R- %d C- %d All- %d\n\n", rNum, cNum, all); //
 	
-	printf("R- %d C- %d All- %d\n", rNum, cNum, all);
+	MatrixMain = mSort(MatrixMain); //Sorts Matrix
+	MatrixMain = mSort(MatrixMain);
+	MatrixMain = mSort(MatrixMain);
 	
-	Sort(MatrixMain, mSize); //Sorts Matrix
+	cNum = MatrixMain->col;
+	rNum = MatrixMain->row;
+	all = MatrixMain->all;
+	
+	int i; for(i = 0; i<mSize; i++) {printf("----");} printf("\n\n"); //Prints the line across two Matrix's
+
 	mPrint(MatrixMain, mSize); //Outputs sorted Matrix
+	printf("R- %d C- %d All- %d\n\n", rNum, cNum, all);
+	
+	
 }
 
